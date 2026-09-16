@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Report Lost Item - Smart Campus</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #eef6ff;
+            min-height: 100vh;
+            padding: 30px 15px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 650px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .logo {
+            text-align: center;
+            font-size: 45px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 8px;
+            color: #123;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin: 8px 0 25px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-top: 18px;
+            margin-bottom: 7px;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #bbb;
+            border-radius: 10px;
+            font-size: 15px;
+        }
+
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #1565c0;
+        }
+
+        .preview {
+            display: none;
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .preview img {
+            max-width: 250px;
+            max-height: 250px;
+            border-radius: 12px;
+            border: 2px solid #ddd;
+        }
+
+        .ai-info {
+            background: #e8f3ff;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            color: #174a75;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            margin-top: 25px;
+            background: #1565c0;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0d47a1;
+        }
+
+        .back {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .back a {
+            color: #1565c0;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        #result {
+            display: none;
+            margin-top: 20px;
+            padding: 18px;
+            background: #e8f5e9;
+            border-radius: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="logo">🔎</div>
+
+        <h1>Report Lost Item</h1>
+
+        <p class="subtitle">
+            Upload your item photo and let AI help find a match
+        </p>
+
+        <form onsubmit="findMatches(event)">
+
+            <!-- Item Photo -->
+            <label for="itemPhoto">Item Photo</label>
+
+            <input
+                type="file"
+                id="itemPhoto"
+                accept="image/*"
+                onchange="previewImage(event)"
+                required
+            >
+
+            <!-- Image Preview -->
+            <div class="preview" id="imagePreview">
+                <img id="preview" src="" alt="Item Preview">
+            </div>
+
+
+            <!-- Item Name -->
+            <label for="itemName">Item Name</label>
+
+            <input
+                type="text"
+                id="itemName"
+                placeholder="Example: Black Wallet"
+                required
+            >
+
+
+            <!-- Description -->
+            <label for="description">Description</label>
+
+            <textarea
+                id="description"
+                placeholder="Describe your item..."
+                required
+            ></textarea>
+
+
+            <!-- Lost Location -->
+            <label for="location">Lost Location</label>
+
+            <input
+                type="text"
+                id="location"
+                placeholder="Example: College Library"
+                required
+            >
+
+
+            <!-- Date -->
+            <label for="date">Date</label>
+
+            <input
+                type="date"
+                id="date"
+                required
+            >
+
+
+            <!-- Contact -->
+            <label for="contact">Contact Number</label>
+
+            <input
+                type="tel"
+                id="contact"
+                placeholder="Enter phone number"
+                pattern="[0-9]{10}"
+                required
+            >
+
+
+            <div class="ai-info">
+                🤖 <b>AI Visual Matching</b><br><br>
+                Your uploaded image and item details will be used
+                to search for visually similar found items.
+            </div>
+
+
+            <button type="submit">
+                🤖 Find AI Matches
+            </button>
+
+        </form>
+
+
+        <!-- Result -->
+        <div id="result">
+            <h3>🤖 AI Matching Started!</h3>
+            <p id="resultText">
+                Searching for visually similar items...
+            </p>
+        </div>
+
+
+        <div class="back">
+            <a href="index.html">← Back to Home</a>
+        </div>
+
+    </div>
+
+
+    <script>
+
+        // Image Preview
+        function previewImage(event) {
+
+            const file = event.target.files[0];
+
+            if (file) {
+
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+
+                    document.getElementById("preview").src = e.target.result;
+
+                    document.getElementById("imagePreview").style.display = "block";
+                };
+
+                reader.readAsDataURL(file);
+            }
+        }
+
+
+        // Find AI Matches
+        function findMatches(event) {
+
+            event.preventDefault();
+
+            const itemName =
+                document.getElementById("itemName").value;
+
+            const location =
+                document.getElementById("location").value;
+
+            document.getElementById("result").style.display = "block";
+
+            document.getElementById("resultText").innerHTML =
+                "AI is analyzing <b>" + itemName +
+                "</b> and searching for matching items near <b>" +
+                location + "</b>...";
+
+            // Demo delay
+            setTimeout(function() {
+
+                document.getElementById("resultText").innerHTML =
+                    "✅ Search completed! Matching found items will appear here.";
+
+            }, 2000);
+        }
+
+    </script>
+
+</body>
+
+</html>
