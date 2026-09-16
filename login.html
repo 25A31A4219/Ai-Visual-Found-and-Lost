@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login - Smart Campus Lost & Found</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .login-box {
+            background: white;
+            width: 100%;
+            max-width: 400px;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .logo {
+            text-align: center;
+            font-size: 45px;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #555;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 7px;
+            margin-top: 15px;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #bbb;
+            border-radius: 10px;
+            font-size: 15px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #1565c0;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            margin-top: 22px;
+            background: #1565c0;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0d47a1;
+        }
+
+        .register {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .register a {
+            color: #1565c0;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .register a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-box">
+
+        <div class="logo">🔎</div>
+
+        <h1>Smart Campus</h1>
+
+        <p class="subtitle">AI Powered Lost & Found</p>
+
+        <form onsubmit="loginUser(event)">
+
+            <label for="email">Email</label>
+            <input
+                type="email"
+                id="email"
+                placeholder="Enter your email"
+                required
+            >
+
+            <label for="password">Password</label>
+            <input
+                type="password"
+                id="password"
+                placeholder="Enter your password"
+                required
+            >
+
+            <button type="submit">Login</button>
+
+        </form>
+
+        <div class="register">
+            Don't have an account?
+            <a href="register.html">Register</a>
+        </div>
+
+    </div>
+
+    <script>
+        function loginUser(event) {
+            event.preventDefault();
+
+            let email = document.getElementById("email").value;
+            let password = document.getElementById("password").value;
+
+            if (email !== "" && password !== "") {
+                alert("Login successful!");
+
+                // After login, open home page
+                window.location.href = "index.html";
+            }
+        }
+    </script>
+
+</body>
+</html>
